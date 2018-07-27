@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title><%= title %></title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+
+    <link  rel="stylesheet" href="/css/style.css">
+
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">CmsShoppingCart</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <% pages.forEach(function(page) { %>
+            <% if(page.slug == "home") { %>
+              <li class="nav-item active">
+                <a class="nav-link" href="/"><%=page.title%></a> <!--home points to index so cant use slug -->
+              </li>
+            <% } else { %>
+              <li class="nav-item active">
+                <a class="nav-link" href="/<%=page.slug%>"><%=page.title%></a>
+              </li>
+            <% }%>
+          <% }) %>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/cart/checkout">My Cart(
+                <% if(typeof cart !== "undefined") {%>
+                  <%= cart.length%>
+                <% } else {%>
+                    0
+                <% } %>
+          )</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+      <div class="container">
+        <%- messages('messages', locals) %>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-3">
+              <h3>Category</h3>
+              <ul class="list-group"> <!--bootstrap class for list -->
+                <li class="list-group-item"><a href="/products">All Products</a></li>
+                <% categories.forEach(function(cat){ %>
+                  <li class="list-group-item"><a href="/products/<%=cat.slug%>"><%=cat.title%></a></li>
+                <% })%>
+              </ul>
+            </div>
+            <div class="col-xs-12 col-md-1"></div>
+            <div class="col-xs-12 col-md-8">

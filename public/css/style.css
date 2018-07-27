@@ -1,0 +1,30 @@
+img.pimage{
+  width: 150px;
+}
+
+a.pa{
+  display: inline-block;
+  height: 160px;
+}
+
+.row.products.p {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+img.spi{
+  width: 100%;
+}
+
+ul.gallery li {
+  display: inline-block; /*makes everything in one line */
+  margin: 20px;
+  list-style: none;
+}
+
+img.cpi{ /* it is for the checkout images */
+  width: 100px;
+}
+table.alignmiddle td {
+  vertical-align: middle !important; /* !important sets the priority of the css */
+}
