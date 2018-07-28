@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const expressValidator = require('express-validator');
 const fileUpload = require('express-fileupload');
+const passport = require('passport');
 
 const path = require('path');
 
@@ -110,9 +111,17 @@ app.use(function (req, res, next) {
   res.locals.messages = require('express-messages')(req, res);
   next();
 });
+//passport config
+var {passportSetup} = require('./config/passport');
+passportSetup(passport);
+
+//passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get('*', (req, res, next) => { //* gets all the get request
   res.locals.cart = req.session.cart;
+  res.locals.user = req.user || null; //req.user is set if the authentication is succeful
   next();
 });
 
@@ -120,6 +129,7 @@ app.get('*', (req, res, next) => { //* gets all the get request
 var pages = require('./routes/pages');
 var products = require('./routes/products');
 var cart = require('./routes/cart');
+var users = require('./routes/users');
 var admin_pages = require('./routes/admin_pages');
 var admin_categories = require('./routes/admin_categories');
 var admin_products = require('./routes/admin_products');
@@ -128,6 +138,7 @@ var admin_products = require('./routes/admin_products');
 app.use('/admin/pages', admin_pages);
 app.use('/admin/categories', admin_categories);
 app.use('/admin/products', admin_products);
+app.use('/users', users);
 app.use('/cart', cart);
 app.use('/products', products);
 app.use('/', pages); //keeping this routes last allows to check others routes conditions

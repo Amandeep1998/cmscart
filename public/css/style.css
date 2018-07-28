@@ -28,3 +28,30 @@ img.cpi{ /* it is for the checkout images */
 table.alignmiddle td {
   vertical-align: middle !important; /* !important sets the priority of the css */
 }
+
+.pp {
+  position: absolute;
+  left: -3000px;
+}
+
+.ajaxbg{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, .8); /* makes transparent bg */
+  z-index: 2; /* makes bg display upfront */
+  display: none;
+}
+.ajaxinner{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%); /* To position to center */
+  text-align: center;
+}
+
+.alert-error { /* This is for the default passport messages */
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}

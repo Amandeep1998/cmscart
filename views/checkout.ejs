@@ -19,11 +19,11 @@
        <tr>
          <td><img class="cpi" src="<%=product.image%>"></td>
          <td><%=product.title%></td>
-         <td>$<%= parseFloat(product.price).toFixed(2)%></td>
+         <td>$<%= product.price%></td>
          <td><%=product.qty%></td>
          <td>
            <a href="/cart/update/<%=product.title%>?action=add">+</a>&nbsp;
-           <a href="/cart/update/<%=product.title%>?action=sub">-</a>&nbsp;
+           <a href="/cart/update/<%=product.title%>?action=remove">-</a>&nbsp;
            <a href="/cart/update/<%=product.title%>?action=clear">clear</a>&nbsp;
          </td>
          <td><%=sub%></td>
@@ -34,7 +34,7 @@
      </tr>
      <tr>
        <td colspan="5" align="right">
-         <a class="btn btn-danger" href="/cart/clear">Clear</a>
+         <a class="clearcart btn btn-danger" href="/cart/clear">Clear</a>
        </td>
        <td colspan="5" align="right">
          <a class="btn btn-primary buynow" href="#">Buy Now</a>
@@ -42,8 +42,43 @@
      </tr>
    </table>
 
+    <form class="pp" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+      <input type="hidden" name="cmd" value="_cart">
+      <input type="hidden" name="upload" value="1">
+      <input type="hidden" name="business" value="jultranet-facilitator@gmail.com">
+      <% var num = 0; %>
+      <% cart.forEach(function(product){ %>
+        <% num++ %>
+        <input type="hidden" name="item_name_<%=num%>" value="<%=product.title%>">
+        <input type="hidden" name="amount_<%=num%>" value="<%=product.price%>">
+        <input type="hidden" name="quantity_<%=num%>" value="<%=product.qty%>">
+      <% }); %>
+      <input type="hidden" name="amount" value="<%=total %>">
+      <input type="submit" value="PayPal">
+    </form>
+
   <% } else {%>
     <h3 class="text-center">Your Cart is Empty</h3>
   <% }%>
+
+  <script>
+      $(function() {
+          $('a.clearcart').on('click', function() {
+            if(!confirm('Confirm Clear Cart')) {
+              return false;
+            }
+          });
+
+          $('a.buynow').on('click', function(e) {
+            e.preventDefault();
+
+            $.get('/cart/buynow', function () {
+              $('form.pp input[type="submit"]').click();
+              $('.ajaxbg').show();
+            });
+          });
+
+      })
+  </script>
 
 <% include _layouts/footer %>

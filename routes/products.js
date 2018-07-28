@@ -2,10 +2,15 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs-extra');
 
+
 var {Product} = require('./../models/product');
 var {Category} = require('./../models/category');
+var auth = require('./../config/auth');
+var isUser = auth.isUser;
 //Get /
 router.get('/', (req, res) => {
+  // router.get('/', isUser, (req, res) => { to create private route
+
   Product.find({}).then((products) => {
     res.render('all_products', {
       title: 'All Products',
@@ -36,6 +41,7 @@ router.get('/:category', (req, res) => {
 //Get product
 router.get('/:category/:product', (req, res) => {//when user click on the product image in all products view
     var galleryImages = null;
+    var loggedIn = (req.isAuthenticated())? true : false;
     Product.findOne({slug: req.params.product}).then((product) => {
       if(!product) {
         return res.status(404).send();
@@ -50,7 +56,8 @@ router.get('/:category/:product', (req, res) => {//when user click on the produc
           res.render('product', {
             title: product.title,
             product: product,
-            galleryImages: galleryImages
+            galleryImages: galleryImages,
+            loggedIn: loggedIn
           });
         }
 

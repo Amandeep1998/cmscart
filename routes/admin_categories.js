@@ -1,12 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
+
+var auth = require('./../config/auth');
+var isAdmin = auth.isAdmin;
 //Get model page
 var {Category} = require('./../models/category');
 /*
+
 * Get Page index
 */
-router.get('/', (req, res) => {
+router.get('/',isAdmin, (req, res) => {
   Category.find({}).then((categories) => {
     res.render('admin/categories', {
       categories: categories
@@ -17,7 +21,7 @@ router.get('/', (req, res) => {
 /*
 * Get add Category
 */
-router.get('/add-category', (req, res) => {
+router.get('/add-category', isAdmin,(req, res) => {
   var title = "";
   res.render('admin/add_category', {
     title: title,
@@ -109,7 +113,7 @@ router.post('/add-category', (req, res) => {
 /*
 * Get edit category
 */
-router.get('/edit-category/:id', (req, res) => {
+router.get('/edit-category/:id',isAdmin, (req, res) => {
   Category.findOne({_id : req.params.id}).then((category) => {
     if(!category) {
       return res.status(404).send('Page not found');
@@ -175,7 +179,7 @@ router.post('/edit-category/:id', (req, res) => {
   }
 });
 
-router.get('/delete-category/:id', (req, res) => {
+router.get('/delete-category/:id', isAdmin,(req, res) => {
   Category.findByIdAndRemove({_id: req.params.id}).then(() => {
     Category.find({}).then((categories) => {
       req.app.locals.categories = categories; //now categories can be access anywhere
