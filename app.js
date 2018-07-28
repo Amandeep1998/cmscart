@@ -143,7 +143,7 @@ app.use('/cart', cart);
 app.use('/products', products);
 app.use('/', pages); //keeping this routes last allows to check others routes conditions
 //Start the server
-var port = 3000;
+var port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Starting server at ${port}`);
 })
