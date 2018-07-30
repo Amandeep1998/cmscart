@@ -5,6 +5,8 @@ const session = require('express-session');
 const expressValidator = require('express-validator');
 const fileUpload = require('express-fileupload');
 const passport = require('passport');
+const MongoStore = require('connect-mongo')(session);
+
 
 const path = require('path');
 
@@ -68,8 +70,10 @@ app.use(session({
   secret: 'keyboard cat',
   resave: true,
   saveUninitialized: true,
+  store: new MongoStore(options)
+
   // cookie: { secure: true }
-}))
+}));
 
 //Express -validator middleware
 app.use(expressValidator({
