@@ -1,12 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-// const session = require('express-session');
+const session = require('express-session');
 const expressValidator = require('express-validator');
 const fileUpload = require('express-fileupload');
 const passport = require('passport');
 // const MongoStore = require('connect-mongo')(session);
-const session = require('cookie-session');
+// const session = require('cookie-session');
 
 
 const path = require('path');
@@ -71,9 +71,9 @@ app.use(session({
   secret: 'keyboard cat',
   resave: true,
   saveUninitialized: true,
-  cookie: { secure: true,
-    maxAge:60000
-   }
+  // cookie: { secure: true,
+  //   maxAge:60000
+  //  }
 }));
 
 //Express -validator middleware
