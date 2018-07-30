@@ -126,9 +126,15 @@ app.use(passport.session());
 
 app.get('*', (req, res, next) => { //* gets all the get request
   res.locals.cart = req.session.cart;
+  res.locals.user = req.user || null; //req.user is set if the authentication is succeful and it coomes from passport
+  next();
+});
+
+app.post('*', (req, res, next) => {
   res.locals.user = req.user || null; //req.user is set if the authentication is succeful
   next();
 });
+
 
 //Set routes
 var pages = require('./routes/pages');

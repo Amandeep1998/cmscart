@@ -48,7 +48,7 @@ router.post('/add-page', (req, res) => {
       errors: errors,
       title: title,
       slug: slug,
-      content: content
+      content: content,
     });
   } else
         {
@@ -188,7 +188,7 @@ router.post('/edit-page/:id', (req, res) => {
       title: title,
       slug: slug,
       content: content,
-      id: id
+      id: id,
     });
   } else {
     Page.findOne({slug: slug, _id:{'$ne': id}}).then((page) => {//the $ne is used to check for other pages slug not itself
